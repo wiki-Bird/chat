@@ -1,0 +1,68 @@
+html {
+    height: 100%;
+}
+
+body {
+    background: rgb(37,0,43);
+    background: -moz-linear-gradient(0deg, rgba(37,0,43,1) 0%, rgba(0,0,0,1) 100%);
+    background: -webkit-linear-gradient(0deg, rgba(37,0,43,1) 0%, rgba(0,0,0,1) 100%);
+    background: linear-gradient(0deg, rgba(37,0,43,1) 0%, rgba(0,0,0,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#25002b",endColorstr="#000000",GradientType=1);
+
+    font-family: 'JetBrains Mono', monospace;
+    color:white;
+    top:0;
+    margin:0;
+    padding:0;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+    text-shadow: 0 0 20px #ff00b3;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+body::before{
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    z-index: 2;
+    background-size: 100% 2px, 4px 100%;
+    pointer-events: none;
+}
+
+.contentBox {
+    background: black;
+    box-shadow: 0 0 20px rgba(255,0,179,0.4), 0 0 40px rgba(255,0,179,0.1) inset;
+    border-style: solid;
+    border-width: 2px;
+    margin: auto;
+    overflow-y: auto;
+    margin-bottom: 30px;
+    text-align: center;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+.contentTitle {
+    width:100%;
+    display:block;
+    overflow-y: hidden;
+    background-color: #fff;
+    color:black;
+    padding-left:5px;
+    padding-right:5px;
+    box-sizing:border-box;
+    font-size:small;
+    text-align: left;
+}

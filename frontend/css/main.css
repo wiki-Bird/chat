@@ -219,3 +219,33 @@ body::before{
     height: 200px;
     margin-bottom: 0;
 }
+
+.profile {
+    display:flex;
+    flex-direction: row;
+}
+
+.bigPfp {
+    height: 100px;
+    width: 100px;
+    display: flex;
+}
+
+.nameBig {
+    font-size: 20px;
+    margin-bottom: 0;
+    display: flex;
+}
+.idBig {
+    font-size: 13px;
+    margin-bottom: 0;
+    color:#ffffff88;
+    display: flex;
+}
+
+.rightProfile {
+    display:flex;
+    flex-direction: column;
+    justify-content: left;
+    padding: 10px;
+}

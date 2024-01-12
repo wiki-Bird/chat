@@ -40,6 +40,9 @@ wss.on('connection', (ws: WebSocket) => {
 
     console.log('Client connected with ID:', userId);
 
+    broadcastPlayersList(); // Broadcast the updated list to all clients
+    console.log(users)
+
     ws.on('message', (message: string) => {
         const sender = users.get(userId);
         if (sender) {
@@ -48,6 +51,7 @@ wss.on('connection', (ws: WebSocket) => {
             wss.clients.forEach(client => {
                 if (client.readyState === WebSocket.OPEN) {
                     client.send(JSON.stringify({
+                        type: 'message',
                         userId: sender.id,
                         username: sender.username,
                         profilePic: sender.profilePic,
@@ -69,3 +73,26 @@ wss.on('connection', (ws: WebSocket) => {
 server.listen(3000, () => {
     console.log(`Server started on port 3000`);
 });
+
+function broadcastPlayersList() {
+    // const playersList = JSON.stringify(users);
+    const playersArray = Array.from(users.values()).map(player => {
+        return {
+            id: player.id,  // Assuming 'id' is a property of your player object
+            username: player.username,  // Assuming 'username' is a property
+            profilePic: player.profilePic  // Assuming 'profilePic' is a property
+        };
+    });
+
+    const playersList = JSON.stringify(playersArray);
+
+    wss.clients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify({
+                type: 'playersList',
+                players: playersArray
+            }));
+        }
+    }
+    );
+}

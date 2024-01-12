@@ -71,7 +71,7 @@ body::before{
 
 .content {
     width: 80%;
-    background: red;
+    /* background: red; */
     margin: auto;
     padding: 10px;
 
@@ -99,7 +99,6 @@ body::before{
     flex-direction: column;
     justify-content: flex-end;
     flex-grow: 1;
-    background:green;
 }
 
 #messages {
@@ -108,18 +107,88 @@ body::before{
     justify-content: flex-end;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    padding: 10px;
 }
 
 #form {
     height: 40px;
     border: 0;
     margin: 0;
-    margin: 0;
-    background: blue;
+    background-color: red;
     display:flex;
     flex-direction: row;
+    border-top: 2px solid #fff;
 }
 #input {
     flex-grow:1;
+    border-radius: 0;
+    border: none;
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    outline: none;
+    text-indent: 10px;
+    background-color: #14000e;
+    font-size: 16px;
+}
+#input:focus {
+    box-shadow: 0 0 20px rgba(255,0,179,0.1) inset;
+}
+#submit {
+    border: none;
+    background-color: #14000e;
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    outline: none;
+    cursor: pointer;
+    padding: 0 10px;
+    border-left: 2px solid #fff;
+    box-shadow: 0 0 40px rgba(255,0,179,0.0) inset;
+}
+#submit:hover {
+    background-color: #240119;
+    box-shadow: 0 0 20px rgba(255,0,179,0.1) inset;
+    
+}
+
+/* Messages */
+.messageBox {
+    display:flex;
+    flex-direction: row;
+    margin: 5px;
+    padding: 5px;
+    /* background:#240119; */
+    height: 50px;
+}
+.pfp {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+.message {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+    align-items: left;
+}
+.above {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 3px;
+}
+.time {
+    font-size: 13px;
+    color: #ffffffb2;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.name {
+    color: #ffffffc7;
+}
+.text {
+    display: flex;
+    font-size: 16.3px;
 }

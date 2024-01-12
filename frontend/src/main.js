@@ -1,34 +1,55 @@
 "use strict";
-// const socket = new WebSocket('ws://localhost:3000');
 var _a;
-// const chatContainer = document.getElementById('chat-container') as HTMLDivElement;
-// const messageInput = document.getElementById('message-input') as HTMLInputElement;
-// const sendButton = document.getElementById('send-button') as HTMLButtonElement;
-// sendButton.addEventListener('click', () => {
-//     const message = messageInput.value;
-//     socket.send(message);
-//     messageInput.value = '';
-// });
-// socket.addEventListener('message', (event) => {
-//     const message = document.createElement('p');
-//     message.textContent = event.data;
-//     chatContainer.appendChild(message);
-// });
-// --------------------------------------------------
 const input = document.getElementById('input');
 const messages = document.getElementById('messages');
 const ws = new WebSocket('ws://localhost:3000');
-console.log('hello');
 ws.onopen = () => {
-    console.log('Connected to WebSocket server');
+    console.log('Connected to server');
 };
 ws.onerror = (error) => {
     console.error('WebSocket Error:', error);
 };
+// ws.onmessage = (event) => {
+//     const message = document.createElement('li');
+//     message.textContent = event.data;
+//     messages.appendChild(message);
+// };
 ws.onmessage = (event) => {
-    const message = document.createElement('li');
-    message.textContent = event.data;
-    messages.appendChild(message);
+    // Create the main messageBox div
+    const messageBox = document.createElement('div');
+    messageBox.className = 'messageBox';
+    // Create and append the profile picture
+    const pfp = document.createElement('img');
+    pfp.className = 'pfp';
+    pfp.src = 'https://i.pinimg.com/originals/ff/47/19/ff47193f3e789f2cfdd762d3ada525c3.jpg';
+    pfp.loading = 'lazy';
+    messageBox.appendChild(pfp);
+    // Create the message container
+    const message = document.createElement('div');
+    message.className = 'message';
+    // Create and append the 'above' container
+    const above = document.createElement('div');
+    above.className = 'above';
+    const name = document.createElement('div');
+    name.className = 'name';
+    name.textContent = 'bob'; // Replace with dynamic name if needed
+    const time = document.createElement('div');
+    time.className = 'time';
+    const now = new Date();
+    time.textContent = now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+    above.appendChild(name);
+    above.appendChild(time);
+    // Create and append the text container
+    const text = document.createElement('div');
+    text.className = 'text';
+    text.textContent = event.data; // The message text
+    message.appendChild(above);
+    message.appendChild(text);
+    // Append the message to the messageBox
+    messageBox.appendChild(message);
+    // Append the messageBox to the parent element in your document
+    // Replace 'messages' with the actual parent element's ID or reference
+    messages.appendChild(messageBox);
 };
 (_a = document.getElementById('form')) === null || _a === void 0 ? void 0 : _a.addEventListener('submit', (event) => {
     event.preventDefault();

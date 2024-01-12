@@ -35,7 +35,7 @@ const users: Map<string, User> = new Map();
 wss.on('connection', (ws: WebSocket) => {
     const userId = Math.random().toString(36).substr(2, 9); // Generate a random user ID
     // Initialize user data - you could allow clients to set their username and profile picture
-    const newUser: User = { ws, id: userId, username: 'Anonymous', profilePic: 'https://i.pinimg.com/originals/ff/47/19/ff47193f3e789f2cfdd762d3ada525c3.jpg' };
+    const newUser: User = { ws, id: userId, username: userId, profilePic: 'https://i.pinimg.com/originals/ff/47/19/ff47193f3e789f2cfdd762d3ada525c3.jpg' };
     users.set(userId, newUser);
 
     console.log('Client connected with ID:', userId);

@@ -14,27 +14,14 @@ ws.onerror = (error) => {
 //     message.textContent = event.data;
 //     messages.appendChild(message);
 // };
-// <div class="messageBox">
-// <img class="pfp" src="https://i.pinimg.com/originals/ff/47/19/ff47193f3e789f2cfdd762d3ada525c3.jpg" loading="lazy">
-// <div class="message">
-//     <div class="above">
-//         <div class="name">bob</div>
-//         <div class="time">12:00</div>
-//         <div class="ID">123456789</div>
-//     </div>
-//     <div class="text">hello there how are you</div>
-// </div>
-// </div>
 ws.onmessage = (event) => {
     var _a, _b;
     const data = JSON.parse(event.data);
     // if data.userId == #ID from the last messageBox
     const lastMessage = messages.lastElementChild;
-    console.log(lastMessage);
     let lastMessageID = 'X';
     if (lastMessage)
         lastMessageID = ((_a = lastMessage.querySelector('.ID')) === null || _a === void 0 ? void 0 : _a.textContent) || "X";
-    console.log(lastMessageID, data.userId);
     if (lastMessageID == data.userId) {
         // append data.text as a new <div class="text"> to the last messageBox
         const text = document.createElement('div');

@@ -6,11 +6,13 @@ const ws = new WebSocket('ws://localhost:3000');
 const users = document.querySelector('.onlineUsers');
 const usernameTopRight = document.querySelector('.nameBig');
 const idTopRight = document.querySelector('.idBig');
+const pfpTopRight = document.querySelector('.bigPfp');
 ws.onopen = () => {
     console.log('Connected to server');
 };
 ws.onerror = (error) => {
     console.error('WebSocket Error:', error);
+    alert('Failed to connect to server');
 };
 ws.onmessage = (event) => {
     var _a, _b, _c, _d;
@@ -18,6 +20,7 @@ ws.onmessage = (event) => {
     if (data.type === 'joined') {
         usernameTopRight.textContent = data.username;
         idTopRight.textContent = data.userId;
+        pfpTopRight.src = data.profilePic;
     }
     else if (data.type === 'playersList') {
         // Clear the list
@@ -77,7 +80,7 @@ ws.onmessage = (event) => {
             // Create and append the profile picture
             const pfp = document.createElement('img');
             pfp.className = 'pfp';
-            pfp.src = 'https://i.pinimg.com/originals/ff/47/19/ff47193f3e789f2cfdd762d3ada525c3.jpg';
+            pfp.src = data.profilePic;
             pfp.loading = 'lazy';
             messageBox.appendChild(pfp);
             // Create the message container
@@ -136,18 +139,6 @@ setInterval(() => {
         i = 0;
     funnyImage.src = `./images/ads/${images[i]}.gif`;
 }, 90000);
-// add eventlistener to bigName 
-// usernameTopRight.addEventListener('click', () => {
-//     usernameTopRight.contentEditable = 'true';
-//     usernameTopRight.focus();
-//     // if user clicks away, save the name
-//     const updatedUsername = usernameTopRight.innerText;
-//     const updateMessage = {
-//         type: 'usernameUpdate',
-//         newUsername: updatedUsername
-//     };
-//     ws.send(JSON.stringify(updateMessage));
-// });
 usernameTopRight.addEventListener('click', () => {
     usernameTopRight.contentEditable = 'true';
     usernameTopRight.focus();

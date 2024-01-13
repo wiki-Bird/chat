@@ -4,6 +4,7 @@ const ws = new WebSocket('ws://localhost:3000');
 const users = document.querySelector('.onlineUsers') as HTMLUListElement;
 const usernameTopRight = document.querySelector('.nameBig') as HTMLDivElement;
 const idTopRight = document.querySelector('.idBig') as HTMLDivElement;
+const pfpTopRight = document.querySelector('.bigPfp') as HTMLImageElement;
 
 ws.onopen = () => {
     console.log('Connected to server');
@@ -11,6 +12,7 @@ ws.onopen = () => {
 
 ws.onerror = (error) => {
     console.error('WebSocket Error:', error);
+    alert('Failed to connect to server');
 };
 
 ws.onmessage = (event) => {
@@ -19,6 +21,7 @@ ws.onmessage = (event) => {
     if (data.type === 'joined') {
         usernameTopRight.textContent = data.username;
         idTopRight.textContent = data.userId;
+        pfpTopRight.src = data.profilePic;
     }
     else if (data.type === 'playersList') {
         // Clear the list
@@ -88,7 +91,7 @@ ws.onmessage = (event) => {
             // Create and append the profile picture
             const pfp = document.createElement('img');
             pfp.className = 'pfp';
-            pfp.src = 'https://i.pinimg.com/originals/ff/47/19/ff47193f3e789f2cfdd762d3ada525c3.jpg';
+            pfp.src = data.profilePic;
             pfp.loading = 'lazy';
             messageBox.appendChild(pfp);
 
@@ -161,18 +164,6 @@ setInterval(() => {
     funnyImage.src = `./images/ads/${images[i]}.gif`;
 }, 90000);
 
-// add eventlistener to bigName 
-// usernameTopRight.addEventListener('click', () => {
-//     usernameTopRight.contentEditable = 'true';
-//     usernameTopRight.focus();
-//     // if user clicks away, save the name
-//     const updatedUsername = usernameTopRight.innerText;
-//     const updateMessage = {
-//         type: 'usernameUpdate',
-//         newUsername: updatedUsername
-//     };
-//     ws.send(JSON.stringify(updateMessage));
-// });
 usernameTopRight.addEventListener('click', () => {
     usernameTopRight.contentEditable = 'true';
     usernameTopRight.focus();

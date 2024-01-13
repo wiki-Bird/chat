@@ -36,7 +36,14 @@ const users = new Map();
 wss.on('connection', (ws) => {
     const userId = Math.random().toString(36).substr(2, 9); // Generate a random user ID
     // Initialize user data - you could allow clients to set their username and profile picture
-    const newUser = { ws, id: userId, username: userId, profilePic: 'https://i.pinimg.com/originals/ff/47/19/ff47193f3e789f2cfdd762d3ada525c3.jpg' };
+    const pfps = [
+        "https://i.pinimg.com/originals/ff/47/19/ff47193f3e789f2cfdd762d3ada525c3.jpg",
+        "https://www.guiltygear.com/ggst/en/wordpress/wp-content/uploads/2021/03/anji-306x305.jpg",
+        "https://i.pinimg.com/736x/2c/66/63/2c6663782d20813745a62d1fdcaa1727.jpg",
+        "https://pbs.twimg.com/profile_images/460505300236505088/-Ab6NFbL.jpeg",
+        "http://orig01.deviantart.net/88e0/f/2015/054/6/7/az_minecraft__profile_pic_by_jgfx_by_jinbcraft-d8j7a4w.jpg"
+    ];
+    const newUser = { ws, id: userId, username: userId, profilePic: pfps[Math.floor(Math.random() * pfps.length)] };
     users.set(userId, newUser);
     console.log('Client connected with ID:', userId);
     // broadcast to the new user their Username, ID, and Profile Picture

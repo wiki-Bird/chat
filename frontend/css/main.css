@@ -85,14 +85,14 @@ body::before{
 
 .chatbox {
     height: 80vh;
-    width: 76%;
+    width: 80%;
     display:flex;
     flex-direction: column;
 }
 
 .usersbox {
     height: 80vh;
-    width: 24%;
+    width: 20%;
     display:flex;
     flex-direction: column;
 }

@@ -14,6 +14,8 @@ interface User {
 }
 
 const users: Map<string, User> = new Map();
+// store the message with: userId, username, profilePic, text, timestamp
+const messages: Map<string, string> = new Map();
 
 wss.on('connection', (ws: WebSocket) => {
     const userId = Math.random().toString(36).substr(2, 9); // Generate a random user ID
@@ -41,6 +43,11 @@ wss.on('connection', (ws: WebSocket) => {
         profilePic: newUser.profilePic
     }));
 
+    // send the new user a message event for each message in messages
+    messages.forEach(message => {
+        ws.send(message);
+    });
+
     broadcastPlayersList(); // Broadcast the updated list to all clients
 
     ws.on('message', (message: string) => {
@@ -49,17 +56,27 @@ wss.on('connection', (ws: WebSocket) => {
             const sender = users.get(userId);
             if (sender) {
                 const receivedMessage = parsedMessage.text.toString();
+                const messageId = Math.random().toString(36).substr(2, 9); // Generate a random message ID
+                const stringMessage = JSON.stringify({
+                    type: 'message',
+                    userId: sender.id,
+                    username: sender.username,
+                    profilePic: sender.profilePic,
+                    text: receivedMessage,
+                    timestamp: new Date().toISOString()
+                });
+
+                // save the message to the server, if there are >300, delete the oldest
+                messages.set(messageId, stringMessage);
+                if (messages.size > 300) {
+                    const oldestMessage = messages.keys().next().value;
+                    messages.delete(oldestMessage);
+                }
+
                 // Broadcast the message to all clients
                 wss.clients.forEach(client => {
                     if (client.readyState === WebSocket.OPEN) {
-                        client.send(JSON.stringify({
-                            type: 'message',
-                            userId: sender.id,
-                            username: sender.username,
-                            profilePic: sender.profilePic,
-                            text: receivedMessage,
-                            timestamp: new Date().toISOString()
-                        }));
+                        client.send(stringMessage);
                     }
                 });
             }

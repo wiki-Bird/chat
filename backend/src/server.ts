@@ -17,6 +17,8 @@ const users: Map<string, User> = new Map();
 // store the message with: userId, username, profilePic, text, timestamp
 const messages: Map<string, string> = new Map();
 
+let userNameCount = 1;
+
 wss.on('connection', (ws: WebSocket) => {
     const userId = Math.random().toString(36).substr(2, 9); // Generate a random user ID
     // Initialize user data - you could allow clients to set their username and profile picture
@@ -26,9 +28,11 @@ wss.on('connection', (ws: WebSocket) => {
         "https://i.pinimg.com/736x/2c/66/63/2c6663782d20813745a62d1fdcaa1727.jpg",
         "https://pbs.twimg.com/profile_images/460505300236505088/-Ab6NFbL.jpeg",
         "http://orig01.deviantart.net/88e0/f/2015/054/6/7/az_minecraft__profile_pic_by_jgfx_by_jinbcraft-d8j7a4w.jpg"
-    ]
+    ];
 
-    const newUser: User = { ws, id: userId, username: userId, profilePic: pfps[Math.floor(Math.random() * pfps.length)] };
+    let tempUsername = "User " + userNameCount;
+    userNameCount++;
+    const newUser: User = { ws, id: userId, username: tempUsername, profilePic: pfps[Math.floor(Math.random() * pfps.length)] };
     users.set(userId, newUser);
 
     console.log('Client connected with ID:', userId);

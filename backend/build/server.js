@@ -107,8 +107,12 @@ wss.on('connection', (ws) => {
         broadcastPlayersList(); // Broadcast the updated list to all clients
     });
 });
-server.listen(3000, () => {
-    console.log(`Server started on port 3000`);
+// server.listen(3000, () => {
+//     console.log(`Server started on port 3000`);
+// });
+const PORT = process.env.PORT || 3000; // Fallback to 3000 if PORT is not set
+server.listen(Number(PORT), '0.0.0.0', () => {
+    console.log(`Server started on port ${PORT}`);
 });
 function broadcastPlayersList() {
     // const playersList = JSON.stringify(users);

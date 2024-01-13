@@ -2,6 +2,8 @@ const input = document.getElementById('input') as HTMLInputElement;
 const messages = document.getElementById('messages') as HTMLUListElement;
 const ws = new WebSocket('ws://localhost:3000');
 const users = document.querySelector('.onlineUsers') as HTMLUListElement;
+const usernameTopRight = document.querySelector('.nameBig') as HTMLDivElement;
+const idTopRight = document.querySelector('.idBig') as HTMLDivElement;
 
 ws.onopen = () => {
     console.log('Connected to server');
@@ -14,13 +16,32 @@ ws.onerror = (error) => {
 ws.onmessage = (event) => {
     const data = JSON.parse(event.data);
 
-    if (data.type === 'playersList') {
+    if (data.type === 'joined') {
+        usernameTopRight.textContent = data.username;
+        idTopRight.textContent = data.userId;
+    }
+    else if (data.type === 'playersList') {
         // Clear the list
         users.innerHTML = '';
         console.log(typeof(data.players))
 
         // Create a new list item for each player
+        if (data.players.length == 1) {
+            const userlistBox = document.createElement('div');
+            userlistBox.className = 'nobodyOnline';
+            userlistBox.textContent = 'No other users online';
+
+            document.querySelector(".onlineUsers")?.appendChild(userlistBox);
+            return;
+        }
+
         for (const player of data.players) {
+            // if is current user, skip
+            if (player.id === idTopRight.textContent) {
+                console.log('gwea')
+                continue;
+            }
+
             const userlistBox = document.createElement('div');
             userlistBox.className = 'userlistBox';
 
@@ -112,14 +133,20 @@ ws.onmessage = (event) => {
             messages.appendChild(messageBox);
         }
     }
+    
 };
 
 
 document.getElementById('form')?.addEventListener('submit', (event) => {
     event.preventDefault();
     if (input.value) {
-        console.log('sending: ', input.value)
-        ws.send(input.value);
+        // console.log('sending: ', input.value)
+        // ws.send(input.value);
+        const message = {
+            type: 'chat',
+            text: input.value
+        };
+        ws.send(JSON.stringify(message));
         input.value = '';
     }
 });
@@ -132,4 +159,31 @@ setInterval(() => {
     i += 1;
     if (i >= images.length) i = 0;
     funnyImage.src = `./images/ads/${images[i]}.gif`;
-}, 10000);
+}, 90000);
+
+// add eventlistener to bigName 
+// usernameTopRight.addEventListener('click', () => {
+//     usernameTopRight.contentEditable = 'true';
+//     usernameTopRight.focus();
+//     // if user clicks away, save the name
+//     const updatedUsername = usernameTopRight.innerText;
+//     const updateMessage = {
+//         type: 'usernameUpdate',
+//         newUsername: updatedUsername
+//     };
+//     ws.send(JSON.stringify(updateMessage));
+// });
+usernameTopRight.addEventListener('click', () => {
+    usernameTopRight.contentEditable = 'true';
+    usernameTopRight.focus();
+});
+
+usernameTopRight.addEventListener('blur', () => {
+    // This code runs when the user clicks away from the element
+    const updatedUsername = usernameTopRight.innerText;
+    const updateMessage = {
+        type: 'usernameUpdate',
+        newUsername: updatedUsername
+    };
+    ws.send(JSON.stringify(updateMessage));
+});

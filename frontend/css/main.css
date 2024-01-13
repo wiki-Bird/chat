@@ -229,12 +229,14 @@ body::before{
     height: 100px;
     width: 100px;
     display: flex;
+    cursor: pointer;
 }
 
 .nameBig {
     font-size: 20px;
     margin-bottom: 0;
     display: flex;
+    cursor: pointer;
 }
 .idBig {
     font-size: 13px;
@@ -284,4 +286,8 @@ body::before{
     color: #ffffffc7;
     font-size: 13px;
     display: flex;
+}
+
+.nobodyOnline {
+    padding: 10px;
 }

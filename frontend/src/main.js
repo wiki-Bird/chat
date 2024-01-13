@@ -4,6 +4,8 @@ const input = document.getElementById('input');
 const messages = document.getElementById('messages');
 const ws = new WebSocket('ws://localhost:3000');
 const users = document.querySelector('.onlineUsers');
+const usernameTopRight = document.querySelector('.nameBig');
+const idTopRight = document.querySelector('.idBig');
 ws.onopen = () => {
     console.log('Connected to server');
 };
@@ -11,14 +13,30 @@ ws.onerror = (error) => {
     console.error('WebSocket Error:', error);
 };
 ws.onmessage = (event) => {
-    var _a, _b, _c;
+    var _a, _b, _c, _d;
     const data = JSON.parse(event.data);
-    if (data.type === 'playersList') {
+    if (data.type === 'joined') {
+        usernameTopRight.textContent = data.username;
+        idTopRight.textContent = data.userId;
+    }
+    else if (data.type === 'playersList') {
         // Clear the list
         users.innerHTML = '';
         console.log(typeof (data.players));
         // Create a new list item for each player
+        if (data.players.length == 1) {
+            const userlistBox = document.createElement('div');
+            userlistBox.className = 'nobodyOnline';
+            userlistBox.textContent = 'No other users online';
+            (_a = document.querySelector(".onlineUsers")) === null || _a === void 0 ? void 0 : _a.appendChild(userlistBox);
+            return;
+        }
         for (const player of data.players) {
+            // if is current user, skip
+            if (player.id === idTopRight.textContent) {
+                console.log('gwea');
+                continue;
+            }
             const userlistBox = document.createElement('div');
             userlistBox.className = 'userlistBox';
             const pfpSide = document.createElement('img');
@@ -36,7 +54,7 @@ ws.onmessage = (event) => {
             rightSideList.appendChild(idSide);
             userlistBox.appendChild(pfpSide);
             userlistBox.appendChild(rightSideList);
-            (_a = document.querySelector(".onlineUsers")) === null || _a === void 0 ? void 0 : _a.appendChild(userlistBox);
+            (_b = document.querySelector(".onlineUsers")) === null || _b === void 0 ? void 0 : _b.appendChild(userlistBox);
         }
     }
     else if (data.type === 'message') {
@@ -44,13 +62,13 @@ ws.onmessage = (event) => {
         const lastMessage = messages.lastElementChild;
         let lastMessageID = 'X';
         if (lastMessage)
-            lastMessageID = ((_b = lastMessage.querySelector('.ID')) === null || _b === void 0 ? void 0 : _b.textContent) || "X";
+            lastMessageID = ((_c = lastMessage.querySelector('.ID')) === null || _c === void 0 ? void 0 : _c.textContent) || "X";
         if (lastMessageID == data.userId) {
             // append data.text as a new <div class="text"> to the last messageBox
             const text = document.createElement('div');
             text.classList.add('text');
             text.textContent = data.text;
-            (_c = lastMessage === null || lastMessage === void 0 ? void 0 : lastMessage.querySelector('.message')) === null || _c === void 0 ? void 0 : _c.appendChild(text);
+            (_d = lastMessage === null || lastMessage === void 0 ? void 0 : lastMessage.querySelector('.message')) === null || _d === void 0 ? void 0 : _d.appendChild(text);
         }
         else {
             // Create the main messageBox div
@@ -98,8 +116,13 @@ ws.onmessage = (event) => {
 (_a = document.getElementById('form')) === null || _a === void 0 ? void 0 : _a.addEventListener('submit', (event) => {
     event.preventDefault();
     if (input.value) {
-        console.log('sending: ', input.value);
-        ws.send(input.value);
+        // console.log('sending: ', input.value)
+        // ws.send(input.value);
+        const message = {
+            type: 'chat',
+            text: input.value
+        };
+        ws.send(JSON.stringify(message));
         input.value = '';
     }
 });
@@ -112,4 +135,29 @@ setInterval(() => {
     if (i >= images.length)
         i = 0;
     funnyImage.src = `./images/ads/${images[i]}.gif`;
-}, 10000);
+}, 90000);
+// add eventlistener to bigName 
+// usernameTopRight.addEventListener('click', () => {
+//     usernameTopRight.contentEditable = 'true';
+//     usernameTopRight.focus();
+//     // if user clicks away, save the name
+//     const updatedUsername = usernameTopRight.innerText;
+//     const updateMessage = {
+//         type: 'usernameUpdate',
+//         newUsername: updatedUsername
+//     };
+//     ws.send(JSON.stringify(updateMessage));
+// });
+usernameTopRight.addEventListener('click', () => {
+    usernameTopRight.contentEditable = 'true';
+    usernameTopRight.focus();
+});
+usernameTopRight.addEventListener('blur', () => {
+    // This code runs when the user clicks away from the element
+    const updatedUsername = usernameTopRight.innerText;
+    const updateMessage = {
+        type: 'usernameUpdate',
+        newUsername: updatedUsername
+    };
+    ws.send(JSON.stringify(updateMessage));
+});

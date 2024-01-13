@@ -2,11 +2,13 @@
 var _a;
 const input = document.getElementById('input');
 const messages = document.getElementById('messages');
-const ws = new WebSocket('ws://localhost:3000');
 const users = document.querySelector('.onlineUsers');
 const usernameTopRight = document.querySelector('.nameBig');
 const idTopRight = document.querySelector('.idBig');
 const pfpTopRight = document.querySelector('.bigPfp');
+// const ws = new WebSocket('ws://localhost:3000');
+// https://chat-backend-3906.onrender.com/
+const ws = new WebSocket('wss://chat-backend-3906.onrender.com/');
 ws.onopen = () => {
     console.log('Connected to server');
 };

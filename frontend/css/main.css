@@ -255,3 +255,33 @@ body::before{
     padding: 0;
     margin: 0;
 }
+
+.userlistBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 10px;
+}
+.pfpSide {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.rightSideList {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+    align-items: left;
+}
+.nameSide {
+    color: #ffff;
+    display: flex;
+    font-size: 16px;
+}
+.idSide {
+    color: #ffffffc7;
+    font-size: 13px;
+    display: flex;
+}

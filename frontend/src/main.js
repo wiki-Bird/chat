@@ -11,7 +11,7 @@ ws.onerror = (error) => {
     console.error('WebSocket Error:', error);
 };
 ws.onmessage = (event) => {
-    var _a, _b;
+    var _a, _b, _c;
     const data = JSON.parse(event.data);
     if (data.type === 'playersList') {
         // Clear the list
@@ -19,11 +19,24 @@ ws.onmessage = (event) => {
         console.log(typeof (data.players));
         // Create a new list item for each player
         for (const player of data.players) {
-            const li = document.createElement('li');
-            li.textContent = player.username; // Replace with dynamic name if needed
-            li.id = player.id; // Add the player's ID as the list item's ID
-            users.appendChild(li);
-            console.log('gaw');
+            const userlistBox = document.createElement('div');
+            userlistBox.className = 'userlistBox';
+            const pfpSide = document.createElement('img');
+            pfpSide.className = 'pfpSide';
+            pfpSide.src = player.profilePic;
+            const rightSideList = document.createElement('div');
+            rightSideList.className = 'rightSideList';
+            const nameSide = document.createElement('div');
+            nameSide.className = 'nameSide';
+            nameSide.textContent = player.username;
+            const idSide = document.createElement('div');
+            idSide.className = 'idSide';
+            idSide.textContent = player.id;
+            rightSideList.appendChild(nameSide);
+            rightSideList.appendChild(idSide);
+            userlistBox.appendChild(pfpSide);
+            userlistBox.appendChild(rightSideList);
+            (_a = document.querySelector(".onlineUsers")) === null || _a === void 0 ? void 0 : _a.appendChild(userlistBox);
         }
     }
     else if (data.type === 'message') {
@@ -31,13 +44,13 @@ ws.onmessage = (event) => {
         const lastMessage = messages.lastElementChild;
         let lastMessageID = 'X';
         if (lastMessage)
-            lastMessageID = ((_a = lastMessage.querySelector('.ID')) === null || _a === void 0 ? void 0 : _a.textContent) || "X";
+            lastMessageID = ((_b = lastMessage.querySelector('.ID')) === null || _b === void 0 ? void 0 : _b.textContent) || "X";
         if (lastMessageID == data.userId) {
             // append data.text as a new <div class="text"> to the last messageBox
             const text = document.createElement('div');
             text.classList.add('text');
             text.textContent = data.text;
-            (_b = lastMessage === null || lastMessage === void 0 ? void 0 : lastMessage.querySelector('.message')) === null || _b === void 0 ? void 0 : _b.appendChild(text);
+            (_c = lastMessage === null || lastMessage === void 0 ? void 0 : lastMessage.querySelector('.message')) === null || _c === void 0 ? void 0 : _c.appendChild(text);
         }
         else {
             // Create the main messageBox div

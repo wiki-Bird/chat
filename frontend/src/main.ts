@@ -21,11 +21,29 @@ ws.onmessage = (event) => {
 
         // Create a new list item for each player
         for (const player of data.players) {
-            const li = document.createElement('li');
-            li.textContent = player.username; // Replace with dynamic name if needed
-            li.id = player.id; // Add the player's ID as the list item's ID
-            users.appendChild(li);
-            console.log('gaw')
+            const userlistBox = document.createElement('div');
+            userlistBox.className = 'userlistBox';
+
+            const pfpSide = document.createElement('img');
+            pfpSide.className = 'pfpSide';
+            pfpSide.src = player.profilePic;
+
+            const rightSideList = document.createElement('div');
+            rightSideList.className = 'rightSideList';
+
+            const nameSide = document.createElement('div');
+            nameSide.className = 'nameSide';
+            nameSide.textContent = player.username;
+            const idSide = document.createElement('div');
+            idSide.className = 'idSide';
+            idSide.textContent = player.id;
+
+            rightSideList.appendChild(nameSide);
+            rightSideList.appendChild(idSide);
+            userlistBox.appendChild(pfpSide);
+            userlistBox.appendChild(rightSideList);
+
+            document.querySelector(".onlineUsers")?.appendChild(userlistBox);
         }
     }
     else if (data.type === 'message') {

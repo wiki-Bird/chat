@@ -66,6 +66,7 @@ wss.on('connection', (ws: WebSocket) => {
     ws.on('close', () => {
         users.delete(userId);
         console.log(`Client with ID ${userId} disconnected`);
+        broadcastPlayersList(); // Broadcast the updated list to all clients
     });
 });
 

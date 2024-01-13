@@ -77,6 +77,7 @@ wss.on('connection', (ws) => {
     ws.on('close', () => {
         users.delete(userId);
         console.log(`Client with ID ${userId} disconnected`);
+        broadcastPlayersList(); // Broadcast the updated list to all clients
     });
 });
 server.listen(3000, () => {

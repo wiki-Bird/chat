@@ -11,12 +11,6 @@ ws.onerror = (error) => {
     console.error('WebSocket Error:', error);
 };
 
-// ws.onmessage = (event) => {
-//     const message = document.createElement('li');
-//     message.textContent = event.data;
-//     messages.appendChild(message);
-// };
-
 ws.onmessage = (event) => {
     const data = JSON.parse(event.data);
 
@@ -100,8 +94,6 @@ ws.onmessage = (event) => {
             messages.appendChild(messageBox);
         }
     }
-
-
 };
 
 
@@ -113,3 +105,13 @@ document.getElementById('form')?.addEventListener('submit', (event) => {
         input.value = '';
     }
 });
+
+const funnyImage = document.querySelector('.funnyImage') as HTMLImageElement;
+const images = ["jerma", "overwatch", "spies", "house", "truefake", "levels2"]
+let i = Math.floor(Math.random() * images.length);
+funnyImage.src = `images/ads/${images[i]}.gif`;
+setInterval(() => {
+    i += 1;
+    if (i >= images.length) i = 0;
+    funnyImage.src = `./images/ads/${images[i]}.gif`;
+}, 10000);

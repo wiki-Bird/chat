@@ -206,7 +206,8 @@ body::before{
 }
 .onlineUsers {
     flex-grow: 1;
-    margin-top: 10px;
+    border-top: none;
+    margin-top: 0px;
     margin-bottom: 10px;
 }
 
@@ -216,7 +217,6 @@ body::before{
 }
 
 .funnyBox {
-    height: 200px;
     margin-bottom: 0;
 }
 
@@ -248,4 +248,10 @@ body::before{
     flex-direction: column;
     justify-content: left;
     padding: 10px;
+}
+
+.funnyImage {
+    width: 100%;
+    padding: 0;
+    margin: 0;
 }

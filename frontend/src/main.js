@@ -6,11 +6,11 @@ const users = document.querySelector('.onlineUsers');
 const usernameTopRight = document.querySelector('.nameBig');
 const idTopRight = document.querySelector('.idBig');
 const pfpTopRight = document.querySelector('.bigPfp');
-const ws = new WebSocket('ws://localhost:3000');
+// const ws = new WebSocket('ws://localhost:3000');
+const ws = new WebSocket('wss://chat-backend-1111.fly.dev/');
 // https://chat-backend-3906.onrender.com/
 //const ws = new WebSocket('wss://chat-backend-3906.onrender.com/');
 // https://chat-backend-1111.fly.dev/
-// const ws = new WebSocket('wss://chat-backend-1111.fly.dev/');
 let firstScroll = true;
 ws.onopen = () => {
     console.log('Connected to server');

@@ -115,15 +115,25 @@ body::before{
     padding: 10px;
 } */
 
-#messages {
+    /* justify-content: flex-end; */
+    /* flex-direction: column; */
+/* #messages {
     height: calc(100% - 40px); 
     overflow: auto; 
-    /* justify-content: flex-end; */
-    flex-direction: column;
-    /* flex-direction: column-reverse; */
+
+    flex-direction: column-reverse;
     display: flex;
     padding: 10px;
+} */
+
+#messages {
+    height: calc(100% - 40px); /* Adjust the height as necessary */
+    overflow-y: auto; /* Enable scrolling */
+    display: flex;
+    flex-direction: column; /* Keep the natural top-to-bottom flow */
+    padding: 10px;
 }
+
 
 #form {
     height: 40px;

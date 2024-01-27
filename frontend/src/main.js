@@ -72,7 +72,8 @@ ws.onmessage = (event) => {
     }
     else if (data.type === 'message') {
         // if data.userId == #ID from the last messageBox
-        const lastMessage = messages.lastElementChild;
+        // const lastMessage = messages.lastElementChild;
+        const lastMessage = messages.firstElementChild;
         let lastMessageID = 'X';
         if (lastMessage)
             lastMessageID = ((_c = lastMessage.querySelector('.ID')) === null || _c === void 0 ? void 0 : _c.textContent) || "X";
@@ -122,7 +123,9 @@ ws.onmessage = (event) => {
             messageBox.appendChild(message);
             // Append the messageBox to the parent element in your document
             // Replace 'messages' with the actual parent element's ID or reference
-            messages.appendChild(messageBox);
+            // messages.appendChild(messageBox);
+            // append it to the top of the list
+            messages.prepend(messageBox);
         }
         checkScroll();
     }

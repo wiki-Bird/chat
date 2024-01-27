@@ -129,8 +129,9 @@ body::before{
 #messages {
     height: calc(100% - 40px); /* Adjust the height as necessary */
     overflow-y: auto; /* Enable scrolling */
+    /* justify-content: flex-end; */
+    flex-direction: column-reverse;
     display: flex;
-    flex-direction: column; /* Keep the natural top-to-bottom flow */
     padding: 10px;
 }
 

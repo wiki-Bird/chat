@@ -6,11 +6,12 @@ const users = document.querySelector('.onlineUsers');
 const usernameTopRight = document.querySelector('.nameBig');
 const idTopRight = document.querySelector('.idBig');
 const pfpTopRight = document.querySelector('.bigPfp');
-// const ws = new WebSocket('ws://localhost:3000');
+const ws = new WebSocket('ws://localhost:3000');
 // https://chat-backend-3906.onrender.com/
 //const ws = new WebSocket('wss://chat-backend-3906.onrender.com/');
 // https://chat-backend-1111.fly.dev/
-const ws = new WebSocket('wss://chat-backend-1111.fly.dev/');
+// const ws = new WebSocket('wss://chat-backend-1111.fly.dev/');
+let firstScroll = true;
 ws.onopen = () => {
     console.log('Connected to server');
 };
@@ -27,6 +28,11 @@ ws.onmessage = (event) => {
         pfpTopRight.src = data.profilePic;
     }
     else if (data.type === 'playersList') {
+        if (firstScroll) {
+            console.log('first scroll');
+            scrollToBottom();
+            firstScroll = false;
+        }
         // Clear the list
         users.innerHTML = '';
         console.log(typeof (data.players));
@@ -118,6 +124,7 @@ ws.onmessage = (event) => {
             // Replace 'messages' with the actual parent element's ID or reference
             messages.appendChild(messageBox);
         }
+        checkScroll();
     }
 };
 (_a = document.getElementById('form')) === null || _a === void 0 ? void 0 : _a.addEventListener('submit', (event) => {
@@ -131,6 +138,7 @@ ws.onmessage = (event) => {
         };
         ws.send(JSON.stringify(message));
         input.value = '';
+        scrollToBottom();
     }
 });
 const funnyImage = document.querySelector('.funnyImage');
@@ -156,3 +164,13 @@ usernameTopRight.addEventListener('blur', () => {
     };
     ws.send(JSON.stringify(updateMessage));
 });
+function scrollToBottom() {
+    messages.scrollTop = messages.scrollHeight;
+}
+function checkScroll() {
+    // check if the user is scrolled to the bottom
+    if (messages.scrollTop + messages.clientHeight >= messages.scrollHeight) {
+        console.log('gwaaaaa');
+        scrollToBottom();
+    }
+}

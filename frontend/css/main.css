@@ -199,6 +199,8 @@ body::before{
     justify-content: center;
     flex-grow: 1;
     align-items: left;
+    min-width: 0;
+    overflow-wrap: break-word;
 }
 .above {
     display: flex;
@@ -219,6 +221,8 @@ body::before{
     text-align: left;
     margin-bottom: 5px;
     font-size: 16.3px;
+    min-width: 0;
+    overflow-wrap: break-word;
 }
 
 .ID {

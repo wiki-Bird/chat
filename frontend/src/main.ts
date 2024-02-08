@@ -34,13 +34,11 @@ ws.onmessage = (event) => {
     }
     else if (data.type === 'playersList') {
         if (firstScroll) {
-            console.log('first scroll')
             scrollToBottom();
             firstScroll = false;
         }
         // Clear the list
         users.innerHTML = '';
-        console.log(typeof(data.players))
 
         // Create a new list item for each player
         if (data.players.length == 1) {
@@ -55,7 +53,6 @@ ws.onmessage = (event) => {
         for (const player of data.players) {
             // if is current user, skip
             if (player.id === idTopRight.textContent) {
-                console.log('gwea')
                 continue;
             }
 
@@ -207,7 +204,6 @@ function scrollToBottom() {
 function checkScroll() {
     // check if the user is scrolled to the bottom
     if (messages.scrollTop + messages.clientHeight >= messages.scrollHeight) {
-        console.log('gwaaaaa')
         scrollToBottom();
     }
 }

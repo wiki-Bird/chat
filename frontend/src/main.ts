@@ -172,7 +172,7 @@ document.getElementById('form')?.addEventListener('submit', (event) => {
 });
 
 const funnyImage = document.querySelector('.funnyImage') as HTMLImageElement;
-const images = ["jerma", "overwatch", "spies", "house", "truefake", "levels2"]
+const images = ["jerma", "overwatch", "spies", "house", "truefake", "levels2", "strange_woman"]
 let i = Math.floor(Math.random() * images.length);
 funnyImage.src = `images/ads/${images[i]}.gif`;
 setInterval(() => {

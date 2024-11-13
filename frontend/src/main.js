@@ -5,9 +5,14 @@ const messages = document.getElementById('messages');
 const users = document.querySelector('.onlineUsers');
 const usernameTopRight = document.querySelector('.nameBig');
 const idTopRight = document.querySelector('.idBig');
-const pfpTopRight = document.querySelector('.bigPfp');
-// const ws = new WebSocket('ws://localhost:3000');
-const ws = new WebSocket('wss://chat-backend-1111.fly.dev/');
+const pfpTopRight = document.querySelector('.pfpSelector');
+const pfpPopup = document.querySelector('.pfpPopupBack');
+const pfpGrid = document.querySelector('.avatarGrid');
+const userPfps = document.querySelectorAll('.bigPfp');
+var avatars = {};
+var pfpTitle = "";
+const ws = new WebSocket('ws://localhost:3000');
+// const ws = new WebSocket('wss://chat-backend-1111.fly.dev/');
 // https://chat-backend-3906.onrender.com/
 //const ws = new WebSocket('wss://chat-backend-3906.onrender.com/');
 // https://chat-backend-1111.fly.dev/
@@ -25,7 +30,14 @@ ws.onmessage = (event) => {
     if (data.type === 'joined') {
         usernameTopRight.textContent = data.username;
         idTopRight.textContent = data.userId;
-        pfpTopRight.src = data.profilePic;
+        for (const pfp of userPfps) {
+            var pfpElement = pfp;
+            pfpElement.src = data.profilePic;
+            pfpElement.alt = data.profilePicTitle;
+        }
+        pfpTitle = data.profilePicTitle;
+        avatars = data.avatars;
+        populateAvatarGrid(avatars);
     }
     else if (data.type === 'playersList') {
         if (firstScroll) {
@@ -118,9 +130,6 @@ ws.onmessage = (event) => {
             message.appendChild(text);
             // Append the message to the messageBox
             messageBox.appendChild(message);
-            // Append the messageBox to the parent element in your document
-            // Replace 'messages' with the actual parent element's ID or reference
-            // messages.appendChild(messageBox);
             // append it to the top of the list
             messages.prepend(messageBox);
         }
@@ -142,7 +151,7 @@ ws.onmessage = (event) => {
     }
 });
 const funnyImage = document.querySelector('.funnyImage');
-const images = ["jerma", "overwatch", "spies", "house", "truefake", "levels2", "strange_woman"];
+const images = ["jerma", "overwatch", "spies", "house", "truefake", "levels2", "strange_woman", "crying"];
 let i = Math.floor(Math.random() * images.length);
 funnyImage.src = `images/ads/${images[i]}.gif`;
 setInterval(() => {
@@ -164,6 +173,56 @@ usernameTopRight.addEventListener('blur', () => {
     };
     ws.send(JSON.stringify(updateMessage));
 });
+pfpTopRight.addEventListener('click', () => {
+    openPfpPicker();
+});
+pfpPopup.addEventListener('click', (event) => {
+    if (event.target === pfpPopup) {
+        closePfpPicker();
+    }
+});
+function openPfpPicker() {
+    pfpPopup.style.display = 'flex';
+}
+function closePfpPicker() {
+    sendPfpUpdate(pfpTitle);
+    pfpPopup.style.display = 'none';
+}
+function populateAvatarGrid(avatars) {
+    pfpGrid.innerHTML = '';
+    for (const [avatarName, avatarURL] of Object.entries(avatars)) {
+        const avatarElement = document.createElement('div');
+        avatarElement.className = 'avatarElement';
+        if (avatarName == pfpTitle) {
+            avatarElement.classList.add('activePfp');
+        }
+        const avatarImage = document.createElement('img');
+        avatarImage.className = 'avatarImage';
+        avatarImage.src = avatarURL;
+        avatarImage.alt = avatarName;
+        avatarElement.appendChild(avatarImage);
+        pfpGrid.appendChild(avatarElement);
+        // add event listener to each avatarElement
+        avatarElement.addEventListener('click', () => {
+            pfpTitle = avatarName;
+            // update the active class
+            const activeElement = document.querySelector('.activePfp');
+            if (activeElement) {
+                activeElement.classList.remove('activePfp');
+            }
+            avatarElement.classList.add('activePfp');
+            // update pfpTopRight
+            pfpTopRight.src = avatarURL;
+        });
+    }
+}
+function sendPfpUpdate(pfpTitle) {
+    const updateMessage = {
+        type: 'avatarUpdate',
+        newPfp: pfpTitle
+    };
+    ws.send(JSON.stringify(updateMessage));
+}
 function scrollToBottom() {
     messages.scrollTop = messages.scrollHeight;
 }

@@ -20,17 +20,17 @@ const messages: Map<string, string> = new Map();
 let userNameCount = 1;
 
 const pfps = {
-    "misato":"https://i.pinimg.com/originals/ff/47/19/ff47193f3e789f2cfdd762d3ada525c3.jpg",
-    "gio":"https://www.guiltygear.com/ggst/en/wordpress/wp-content/uploads/2020/09/archive_gio.jpg",
-    "rei":"https://i.pinimg.com/736x/2c/66/63/2c6663782d20813745a62d1fdcaa1727.jpg",
-    "manul":"https://pbs.twimg.com/profile_images/460505300236505088/-Ab6NFbL.jpeg",
-    "minecraft":"http://orig01.deviantart.net/88e0/f/2015/054/6/7/az_minecraft__profile_pic_by_jgfx_by_jinbcraft-d8j7a4w.jpg",
-    "1000x":"https://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/1675830/19521f9ce892337a9df0b2226f60f3b6838d019c.jpg",
-    "vampire":"https://decider.com/wp-content/uploads/2022/05/VAMPIRE-IN-THE-GARDEN-NETFLIX-REVIEW.jpg",
-    "chiito":"https://pm1.narvii.com/6809/bb10273174b53729a8527841b405e2625c127db5v2_hq.jpg",
-    // "mako":"https://i.pinimg.com/originals/2c/09/01/2c0901600aaf9e03d9bcad28452d5c80.jpg",
-    "yuuri":"https://i.pinimg.com/474x/10/c5/43/10c543516e4c1a6528c90edbc7676a0c.jpg",
-    "venture":"https://pbs.twimg.com/media/GLYLlkzaQAALQOa.jpg"
+    "misato":"https://raw.githubusercontent.com/wiki-Bird/chat/refs/heads/main/images/pfps/misato.jpg",
+    "gio":"https://raw.githubusercontent.com/wiki-Bird/chat/refs/heads/main/images/pfps/archive_gio.jpg",
+    "rei":"https://raw.githubusercontent.com/wiki-Bird/chat/refs/heads/main/images/pfps/rei.jpg",
+    "manul":"https://raw.githubusercontent.com/wiki-Bird/chat/refs/heads/main/images/pfps/manul.jpeg",
+    "minecraft":"https://raw.githubusercontent.com/wiki-Bird/chat/refs/heads/main/images/pfps/minecraft2.png",
+    "1000x":"https://raw.githubusercontent.com/wiki-Bird/chat/refs/heads/main/images/pfps/1000x.jpg",
+    "vampire":"https://raw.githubusercontent.com/wiki-Bird/chat/refs/heads/main/images/pfps/vampire.jpg",
+    "chiito":"https://raw.githubusercontent.com/wiki-Bird/chat/refs/heads/main/images/pfps/chi.png",
+    // "mako":"https://raw.githubusercontent.com/wiki-Bird/chat/refs/heads/main/images/pfps/mako.jpg",
+    "yuuri":"https://raw.githubusercontent.com/wiki-Bird/chat/refs/heads/main/images/pfps/yuuri.png",
+    "venture":"https://raw.githubusercontent.com/wiki-Bird/chat/refs/heads/main/images/pfps/venture.webp"
 }
 
 wss.on('connection', (ws: WebSocket) => {
